@@ -1,0 +1,24 @@
+{
+  "test1": {
+    "title": "Quantitative Aptitude",
+    "questions": [
+      {"q":"What is 15 + 27?","A":"35","B":"42","C":"50","D":"40","answer":"C"},
+      {"q":"Which is the smallest prime number?","A":"2","B":"3","C":"5","D":"1","answer":"A"},
+      {"q":"RBI controls ______ in India.","A":"Stock Market","B":"Money Supply","C":"Agriculture","D":"Railways","answer":"B"}
+    ]
+  },
+  "test2": {
+    "title": "Reasoning Ability",
+    "questions": [
+      {"q":"2 + 2 = ?","A":"3","B":"4","C":"5","D":"6","answer":"B"},
+      {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"}
+    ]
+  },
+"test 3": {
+    "title": "English",
+    "questions": [
+      {"q":"2 + 2 = ?","A":"3","B":"4","C":"5","D":"6","answer":"B"},
+      {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"}
+    ]
+  }
+}

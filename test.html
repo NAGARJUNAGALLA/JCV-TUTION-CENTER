@@ -1,230 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-<title>Mock Test — Banking Exams</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Banking Test</title>
 <style>
-:root{
-  --primary:#1e3e8e;
-  --accent:#142c66;
-  --good:#c7ffd1;
-  --bad:#ffd1d1;
-  --correct-bg:#c7ffd1;
-  --wrong-bg:#ffd1d1;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#111}
-.header{padding:14px;text-align:center;color:#fff;background:linear-gradient(90deg,var(--primary),var(--accent));font-size:18px}
-.subheader{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-bottom:1px solid #eef2f6}
-.timer{font-weight:700;color:var(--primary)}
-.container{padding:14px;padding-bottom:110px;max-width:900px;margin:auto;}
-.question-box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
-.qtext{font-size:16px;margin-bottom:12px}
-.options .opt{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-top:8px;background:#fff;cursor:pointer}
-.options .opt input{transform:scale(1.2)}
-.options .opt.correct{background:var(--correct-bg);border-color:green}
-.options .opt.wrong{background:var(--wrong-bg);border-color:red}
-.controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:space-between}
-.btn{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer}
-.btn-primary{background:var(--primary);color:#fff}
-.btn-ghost{background:#fff;border:1px solid #d1d6df;color:#333}
-.submit-btn{background:#0f9d58;color:#fff;width:100%;padding:12px;border-radius:10px;border:none;margin-top:12px;font-weight:700}
-.open-nav-btn{position:fixed;right:18px;top:86px;background:var(--primary);color:#fff;border:none;padding:10px 12px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,0.12);cursor:pointer;z-index:99}
-#sideNav{height:100%;width:0;position:fixed;top:0;right:0;background:#fff;z-index:1200;overflow-x:hidden;transition:0.35s;padding-top:60px;box-shadow:-6px 0 20px rgba(0,0,0,0.12)}
-.side-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer}
-.nav-list{padding:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.nav-item{padding:10px;border-radius:8px;text-align:center;background:#f1f5f9;cursor:pointer;font-weight:700}
-.nav-item.correct{background:var(--good)}
-.nav-item.wrong{background:var(--wrong-bg)}
-.nav-item.not-answered{background:#e0e0e0}
-.result-box{background:#fff;padding:15px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
-.review-item{background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
-.correct{color:green;font-weight:700}
-.wrong{color:red;font-weight:700}
-.muted{color:#6b7280}
-@media(max-width:480px){.qtext{font-size:15px}.open-nav-btn{top:70px}}
+body { margin:0; font-family: Arial; background:#f5f5f5; }
+.header { padding:15px; text-align:center; color:#fff; font-size:22px; background:linear-gradient(90deg,#1e3e8e,#142c66); }
+.container { display:flex; max-width:1000px; margin:auto; padding:15px; }
+.questions-area { flex:3; background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.nav-area { flex:1; margin-left:15px; }
+.question-number { font-weight:bold; margin-bottom:10px; }
+.options button { display:block; width:100%; text-align:left; padding:10px; margin:6px 0; border-radius:8px; border:1px solid #1e3e8e; background:#f0f0f0; cursor:pointer; transition:0.3s; }
+.options button.correct { background:#28a745; color:#fff; border:none; }
+.options button.wrong { background:#dc3545; color:#fff; border:none; }
+.options button:disabled { cursor: not-allowed; }
+.nav-area button { width:100%; padding:8px; margin:5px 0; border-radius:8px; border:1px solid #1e3e8e; background:#fff; cursor:pointer; transition:0.3s; }
+.nav-area button.current { background:#1e3e8e; color:#fff; }
+.bottom-btn { margin-top:15px; padding:10px; width:100%; background:#1e3e8e; color:#fff; border:none; border-radius:8px; cursor:pointer; }
+@media(max-width:768px){ .container { flex-direction:column; } .nav-area { margin-left:0; margin-top:15px; } }
 </style>
 </head>
 <body>
 
-<div class="header">Banking Exams — Mock Test</div>
+<div class="header" id="testTitle">Loading Test...</div>
 
-<div class="subheader">
-  <div style="display:flex;gap:12px;align-items:center">
-    <div style="font-weight:700">Test: <span id="testTitle">—</span></div>
-    <div class="muted" id="qCount">Q0</div>
+<div class="container">
+  <div class="questions-area" id="questionsArea">
+    Loading questions...
   </div>
-  <div class="timer" id="timer">00:00</div>
-</div>
-
-<button class="open-nav-btn" onclick="openNav()" title="Open question navigator">☰</button>
-
-<!-- Side Navigation -->
-<div id="sideNav">
-  <div class="side-close" onclick="closeNav()">✕</div>
-  <div style="padding:12px">
-    <div style="font-weight:700;margin-bottom:8px">Questions</div>
-    <div id="navList" class="nav-list"></div>
+  <div class="nav-area" id="navArea">
+    <!-- Question navigator -->
   </div>
-</div>
-
-<!-- Test Container -->
-<div class="container" id="testArea" style="display:none;">
-  <div class="question-box" id="questionBox"></div>
-  <div class="controls">
-    <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()">← Previous</button>
-    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Next →</button>
-  </div>
-  <button class="submit-btn" id="submitBtn" onclick="submitTest(false)">Submit Test</button>
-</div>
-
-<!-- Review Area -->
-<div class="container" id="reviewArea" style="display:none;">
-  <div class="result-box">
-    <div id="resultMessage" style="font-size:18px;font-weight:700"></div>
-    <div id="scoreText" style="margin-top:6px"></div>
-  </div>
-  <h3 style="margin-left:2px">Review Answers</h3>
-  <div id="reviewList"></div>
 </div>
 
 <script>
-let questions=[], current=0, answers={}, totalTime=0, timerRef=null, submitted=false, testId="test1", testTitle="Sample Test";
-const sampleQuestions = {
-  "test1":[
-    {"q":"What is 15 + 27?","A":"35","B":"42","C":"50","D":"40","answer":"C"},
-    {"q":"Which is the smallest prime number?","A":"2","B":"3","C":"5","D":"1","answer":"A"},
-    {"q":"RBI controls ______ in India.","A":"Stock Market","B":"Money Supply","C":"Agriculture","D":"Railways","answer":"B"}
-  ]
-};
-function $(id){return document.getElementById(id);}
-(function initFromURL(){
-  const params=new URLSearchParams(location.search);
-  if(params.has('test')) testId=params.get('test');
-  if(params.has('title')) testTitle=params.get('title');
-})();
-$('testTitle').innerText=testTitle;
+const params = new URLSearchParams(window.location.search);
+const testId = params.get('test');
+const testTitle = params.get('title') || 'Test';
+const currentUser = params.get('user') || '';
+document.getElementById('testTitle').innerText = testTitle;
+
+let questions = [];
+let currentIndex = 0;
+let answers = []; // store selected answers
+let timerMinutes = 0;
+let timerSeconds = 0;
+let timerInterval;
 
 function loadQuestions(){
-  fetch('questions.json').then(r=>r.ok?r.json():Promise.reject()).then(data=>{
-    if(!data[testId]) throw new Error('Test id not found in JSON');
-    questions=data[testId]; startEngine();
-  }).catch(_=>{questions=sampleQuestions[testId]||sampleQuestions['test1'];startEngine();});
+  fetch('questions.json')
+    .then(res=>res.json())
+    .then(data=>{
+      if(!data[testId]){
+        document.getElementById('questionsArea').innerHTML='Test not found.';
+        return;
+      }
+      questions = data[testId].questions;
+      answers = Array(questions.length).fill(null);
+      timerMinutes = questions.length; // 1 min per question
+      timerSeconds = 0;
+      createNav();
+      showQuestion(0);
+      startTimer();
+    });
 }
 
-function startEngine(){
-  totalTime = questions.length * 60;
-  generateNav();
-  renderQuestion();
-  $('testArea').style.display='block';
-  startTimer();
+// Show question by index
+function showQuestion(index){
+  currentIndex = index;
+  const q = questions[index];
+  const qArea = document.getElementById('questionsArea');
+  let html = `<div class="question-number">Question ${index+1} of ${questions.length}</div>`;
+  html += `<div class="question-text">${q.q}</div>`;
+  html += '<div class="options">';
+  ['A','B','C','D'].forEach(opt=>{
+    const selected = answers[index] === opt ? 'selected' : '';
+    html += `<button onclick="selectOption('${opt}')" id="opt${opt}" ${answers[index]? 'disabled':''}>${opt}. ${q[opt]}</button>`;
+  });
+  html += '</div>';
+  html += `<button class="bottom-btn" onclick="nextQuestion()">${index===questions.length-1?'Submit Test':'Next Question'}</button>`;
+  qArea.innerHTML = html;
+  updateNav();
 }
 
+// Option select
+function selectOption(opt){
+  answers[currentIndex] = opt;
+  ['A','B','C','D'].forEach(o=>{
+    const btn = document.getElementById('opt'+o);
+    btn.disabled=true;
+    if(o===questions[currentIndex].answer) btn.classList.add('correct');
+    else if(o===opt) btn.classList.add('wrong');
+  });
+  updateNav();
+}
+
+// Next question
+function nextQuestion(){
+  if(currentIndex < questions.length-1){
+    showQuestion(currentIndex+1);
+  }else{
+    submitTest();
+  }
+}
+
+// Create right-side navigator
+function createNav(){
+  const nav = document.getElementById('navArea');
+  nav.innerHTML='';
+  questions.forEach((q,i)=>{
+    const btn = document.createElement('button');
+    btn.innerText = i+1;
+    btn.onclick = ()=>showQuestion(i);
+    nav.appendChild(btn);
+  });
+}
+
+// Highlight current question in navigator
+function updateNav(){
+  const nav = document.getElementById('navArea');
+  Array.from(nav.children).forEach((btn,i)=>{
+    btn.classList.toggle('current', i===currentIndex);
+    if(answers[i]) btn.style.background='#1e3e8e'; else btn.style.background='#fff';
+  });
+}
+
+// Timer
 function startTimer(){
-  if(timerRef) clearInterval(timerRef);
-  updateTimerDisplay();
-  timerRef=setInterval(()=>{
-    totalTime--; updateTimerDisplay();
-    if(totalTime<=0){ clearInterval(timerRef); timerRef=null; submitTest(true); }
+  const totalSeconds = timerMinutes*60+timerSeconds;
+  let remaining = totalSeconds;
+  timerInterval = setInterval(()=>{
+    const min = Math.floor(remaining/60);
+    const sec = remaining%60;
+    document.getElementById('testTitle').innerText = `${testTitle} — Time Left: ${min}:${sec<10?'0'+sec:sec}`;
+    remaining--;
+    if(remaining<0){
+      clearInterval(timerInterval);
+      submitTest();
+    }
   },1000);
 }
 
-function updateTimerDisplay(){ 
-  let m=Math.floor(totalTime/60); let s=totalTime%60; s=s<10?'0'+s:s; 
-  $('timer').innerText = m+':'+s; 
-}
-
-function openNav(){ $('sideNav').style.width='320px'; }
-function closeNav(){ $('sideNav').style.width='0'; }
-
-function generateNav(){
-  const nav=$('navList'); nav.innerHTML='';
-  for(let i=0;i<questions.length;i++){
-    const d=document.createElement('div'); d.id='nav'+i; d.className='nav-item not-answered'; d.innerText=(i+1); d.onclick=()=>jumpTo(i);
-    nav.appendChild(d);
-  }
-}
-
-function updateNavColors(){
-  for(let i=0;i<questions.length;i++){
-    const q=questions[i]; const user=answers[i]||null;
-    const el=$('nav'+i); if(!el) continue;
-    if(!user) el.className='nav-item not-answered';
-    else if(user===q.answer) el.className='nav-item correct';
-    else el.className='nav-item wrong';
-  }
-}
-
-function renderQuestion(){
-  const q = questions[current];
-  const container = $('questionBox'); container.innerHTML = '';
-
-  const qDiv = document.createElement('div'); qDiv.className='qtext'; qDiv.innerText=`${current+1}. ${q.q}`;
-  container.appendChild(qDiv);
-
-  const optsDiv = document.createElement('div'); optsDiv.className='options';
-  ['A','B','C','D'].forEach(k=>{
-    if(!q[k]) return;
-    const opt = document.createElement('label'); opt.className='opt';
-    const r = document.createElement('input'); r.type='radio'; r.name='opt'; r.value=k;
-    r.onchange = function(){ if(!submitted){ answers[current]=this.value; updateNavColors(); } };
-    if(answers[current]===k) r.checked=true;
-    if(submitted){
-      if(k===q.answer) opt.classList.add('correct');
-      if(answers[current]===k && answers[current]!==q.answer) opt.classList.add('wrong');
-      r.disabled=true;
-    }
-    opt.appendChild(r); opt.appendChild(document.createTextNode(k+'. '+q[k]));
-    optsDiv.appendChild(opt);
-  });
-  container.appendChild(optsDiv);
-
-  $('prevBtn').style.display = current===0?'none':'inline-block';
-  $('nextBtn').style.display = current===questions.length-1?'none':'inline-block';
-  $('submitBtn').style.display = current===questions.length-1?'block':'none';
-
-  $('qCount').innerText=`Q ${current+1}/${questions.length}`;
-  updateNavColors();
-}
-
-function nextQ(){
-  if(!submitted){
-    const sel=document.querySelector("input[name='opt']:checked");
-    if(sel) answers[current]=sel.value;
-  }
-  if(current<questions.length-1){ current++; renderQuestion(); }
-}
-
-function prevQ(){
-  if(current>0){ current--; renderQuestion(); }
-}
-
-function jumpTo(i){ if(i<0||i>=questions.length) return; current=i; renderQuestion(); closeNav(); }
-
-function submitTest(auto=false){
-  if(submitted) return; submitted=true;
-  if(timerRef){ clearInterval(timerRef); timerRef=null; }
-  updateNavColors();
-  renderQuestion(); // to apply highlighting for current question
-
-  $('reviewArea').style.display='block';
-  const reviewList=$('reviewList'); reviewList.innerHTML='';
-  let score=0;
+// Submit Test
+function submitTest(){
+  clearInterval(timerInterval);
+  // Calculate score
+  let score = 0;
   questions.forEach((q,i)=>{
-    const user=answers[i]||'Not Attempted';
-    if(user===q.answer) score++;
-    const item=document.createElement('div'); item.className='review-item';
-    item.innerHTML=`<div style="font-weight:700">Q${i+1}: ${q.q}</div>
-      <div style="margin-top:6px">Your Answer: <span class="${user===q.answer?'correct':(user==='Not Attempted'?'muted':'wrong')}">${user}</span></div>
-      <div>Correct Answer: <span class="correct">${q.answer}</span></div>`;
-    reviewList.appendChild(item);
+    if(answers[i]===q.answer) score++;
   });
-  $('resultMessage').innerText = auto ? "Time's up — Test auto-submitted." : "Test submitted successfully.";
-  $('scoreText').innerText = `Score: ${score} / ${questions.length} (${Math.round(score/questions.length*100)}%)`;
+  const percent = Math.round(score/questions.length*100);
+
+  // Show results
+  const qArea = document.getElementById('questionsArea');
+  let html = `<h3>Test Completed</h3>`;
+  html += `<p>Your Score: ${score} / ${questions.length} (${percent}%)</p>`;
+  html += `<button class="bottom-btn" onclick="window.location.href='mocktests.html'">← Back to Mock Tests</button>`;
+  qArea.innerHTML = html;
+
+  // Send results to Google Sheets
+  sendResultsToGoogleSheet(testId,testTitle,percent);
 }
 
+// Send results to Google Form (replace entry IDs)
+function sendResultsToGoogleSheet(testId, title, score){
+  if(!currentUser) return;
+  const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace
+  const formData = new FormData();
+  formData.append('entry.1111111111', currentUser); // Mobile
+  formData.append('entry.2222222222', title);       // Test Title
+  formData.append('entry.3333333333', score);       // Score
+
+  fetch(formUrl,{method:'POST',mode:'no-cors',body:formData})
+    .then(()=>console.log('Result sent to Google Sheets'))
+    .catch(err=>console.error(err));
+}
+
+// Initialize
 loadQuestions();
 </script>
+
 </body>
 </html>

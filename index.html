@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Mock Tests – Banking Exams App</title>
+
+<style>
+body { margin:0; font-family: Arial; background:#f5f5f5; }
+.header { padding:15px; text-align:center; color:#fff; font-size:22px; background:linear-gradient(90deg,#1e3e8e,#142c66); }
+.login-box { padding:15px; text-align:center; }
+.container { padding:15px; padding-bottom:80px; display:none; }
+.mock-card { background:white; border-radius:12px; padding:15px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.mock-title { font-size:18px; font-weight:bold; color:#1e3e8e; }
+.mock-info { color:#444; font-size:14px; margin-top:5px; }
+.start-btn { margin-top:10px; background:#1e3e8e; color:white; padding:10px 18px; border:none; border-radius:8px; font-size:15px; width:100%; cursor:pointer; transition:0.3s; }
+.start-btn:hover{ background:#142c66; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#1e3e8e; color:#fff; display:flex; justify-content:space-around; padding:12px 0; }
+.bottom-nav a { color:#fff; text-decoration:none; font-size:14px; }
+@media (max-width:480px){ .mock-title { font-size:17px; } .start-btn { font-size:14px; } }
+</style>
+
+<script>
+// Predefined allowed mobile numbers
+const allowedMobiles = ['6301186741','9876543210','9123456780'];
+let currentUser = '';
+
+// Login function
+function login(){
+  const mobile = document.getElementById('mobileInput').value.trim();
+  if(allowedMobiles.includes(mobile)){
+    currentUser = mobile;
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('testContainer').style.display = 'block';
+    loadMockTests();
+  } else {
+    document.getElementById('loginMsg').innerText = 'Invalid mobile number';
+  }
+}
+
+// Open test.html with parameters
+function startTest(id, title){
+  window.location.href = "test.html?test=" + id + "&title=" + encodeURIComponent(title) + "&user=" + currentUser;
+}
+
+// Send results to Google Sheets via Google Form
+function sendResultsToGoogleSheet(testId, title, score){
+  const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // replace with your form URL
+  const formData = new FormData();
+  formData.append('entry.1111111111', currentUser); // Mobile
+  formData.append('entry.2222222222', title);       // Test Title
+  formData.append('entry.3333333333', score);       // Score
+
+  fetch(formUrl, { method:'POST', mode:'no-cors', body: formData })
+    .then(()=>console.log('Result sent to Google Sheets'))
+    .catch(err=>console.error(err));
+}
+
+// Load mock tests dynamically from questions.json
+function loadMockTests(){
+  const container = document.getElementById('testContainer');
+  container.innerHTML = 'Loading tests...';
+
+  fetch('questions.json')
+    .then(res => {
+      if(!res.ok) throw new Error('Could not load questions.json');
+      return res.json();
+    })
+    .then(data => {
+      container.innerHTML = '';
+      Object.keys(data).forEach(testId => {
+        const test = data[testId];
+        const questions = test.questions || [];
+        const title = test.title || testId;
+        const card = document.createElement('div'); 
+        card.className='mock-card';
+        card.innerHTML = `
+          <div class="mock-title">Mock Test – ${title}</div>
+          <div class="mock-info">${questions.length} Questions</div>
+          <button class="start-btn" onclick="startTest('${testId}','${title}')">Start Test</button>
+        `;
+        container.appendChild(card);
+      });
+      if(Object.keys(data).length === 0){
+        container.innerHTML = 'No tests available.';
+      }
+    })
+    .catch(err => {
+      container.innerHTML = 'No tests available.';
+      console.error(err);
+    });
+}
+</script>
+
+</head>
+<body>
+
+<div class="header">Mock Tests</div>
+
+<!-- LOGIN FORM -->
+<div class="login-box" id="loginBox">
+  <h3>Login</h3>
+  <input type="tel" id="mobileInput" placeholder="Enter Mobile Number" style="padding:10px; width:70%; border-radius:8px; border:1px solid #ccc;" />
+  <br><br>
+  <button class="start-btn" onclick="login()">Login</button>
+  <p id="loginMsg" style="color:red; margin-top:6px;"></p>
+</div>
+
+<!-- MOCK TESTS CONTAINER -->
+<div class="container" id="testContainer">
+  <!-- Cards generated dynamically from questions.json -->
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html">Home</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="mocktests.html">Mock Tests</a>
+</div>
+
+</body>
+</html>

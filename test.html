@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -9,58 +9,59 @@
   --primary:#1e3e8e;
   --accent:#142c66;
   --good:#c7ffd1;
-  --bad:#ffd1d1;
-  --correct-bg:#c7ffd1;
-  --wrong-bg:#ffd1d1;
+  --wrong:#ffd1d1;
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#111}
+body{margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;background:#f5f7fb;color:#111}
 .header{padding:14px;text-align:center;color:#fff;background:linear-gradient(90deg,var(--primary),var(--accent));font-size:18px}
 .subheader{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 14px;background:#fff;border-bottom:1px solid #eef2f6}
 .timer{font-weight:700;color:var(--primary)}
-.container{padding:14px;padding-bottom:110px;max-width:900px;margin:auto;}
-.question-box{background:#fff;border-radius:12px;padding:18px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
+.container{padding:14px;padding-bottom:110px;max-width:1000px;margin:auto;}
+.question-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(16,24,40,0.06);margin-bottom:12px}
 .qtext{font-size:16px;margin-bottom:12px}
-.options .opt{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-top:8px;background:#fff;cursor:pointer}
-.options .opt input{transform:scale(1.2)}
-.options .opt.correct{background:var(--correct-bg);border-color:green}
-.options .opt.wrong{background:var(--wrong-bg);border-color:red}
-.controls{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:space-between}
-.btn{padding:10px 14px;border-radius:8px;border:none;font-weight:600;cursor:pointer}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:10px;padding:12px;border-radius:10px;border:1px solid #e6eef8;background:#fff;cursor:pointer}
+.opt input{transform:scale(1.15)}
+.opt.correct{background:var(--good);border-color:green}
+.opt.wrong{background:var(--wrong);border-color:red}
+.controls{display:flex;gap:12px;justify-content:space-between;margin-top:14px}
+.btn{padding:10px 14px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
 .btn-primary{background:var(--primary);color:#fff}
 .btn-ghost{background:#fff;border:1px solid #d1d6df;color:#333}
-.submit-btn{background:#0f9d58;color:#fff;width:100%;padding:12px;border-radius:10px;border:none;margin-top:12px;font-weight:700}
+.submit-btn{background:#0f9d58;color:#fff;padding:12px;border-radius:10px;border:none;font-weight:800}
 .open-nav-btn{position:fixed;right:18px;top:86px;background:var(--primary);color:#fff;border:none;padding:10px 12px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,0.12);cursor:pointer;z-index:99}
 #sideNav{height:100%;width:0;position:fixed;top:0;right:0;background:#fff;z-index:1200;overflow-x:hidden;transition:0.35s;padding-top:60px;box-shadow:-6px 0 20px rgba(0,0,0,0.12)}
 .side-close{position:absolute;top:12px;right:16px;font-size:20px;cursor:pointer}
-.nav-list{padding:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.nav-list{padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .nav-item{padding:10px;border-radius:8px;text-align:center;background:#f1f5f9;cursor:pointer;font-weight:700}
 .nav-item.correct{background:var(--good)}
-.nav-item.wrong{background:var(--wrong-bg)}
+.nav-item.wrong{background:var(--wrong)}
 .nav-item.not-answered{background:#e0e0e0}
 .result-box{background:#fff;padding:15px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
 .review-item{background:#fff;padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,0.05);margin-bottom:12px}
-.correct{color:green;font-weight:700}
-.wrong{color:red;font-weight:700}
 .muted{color:#6b7280}
-@media(max-width:480px){.qtext{font-size:15px}.open-nav-btn{top:70px}}
+.login-overlay{position:fixed;inset:0;background:rgba(8,8,8,0.45);display:flex;align-items:center;justify-content:center;z-index:1500}
+.login-box{background:#fff;padding:18px;border-radius:12px;width:min(420px,94%);box-shadow:0 20px 60px rgba(2,6,23,0.35)}
+.login-box input{width:100%;padding:10px;margin-top:8px;border-radius:8px;border:1px solid #d1d5db}
+.login-actions{display:flex;gap:8px;margin-top:12px}
+@media(min-width:860px){ .nav-list{grid-template-columns:repeat(6,1fr)} }
+@media(max-width:480px){ .qtext{font-size:15px} .open-nav-btn{top:70px} }
 </style>
 </head>
 <body>
 
-<div class="header">Banking Exams — Mock Test</div>
+<header class="header" id="appTitle">Loading test...</header>
 
 <div class="subheader">
   <div style="display:flex;gap:12px;align-items:center">
     <div style="font-weight:700">Test: <span id="testTitle">—</span></div>
-    <div class="muted" id="qCount">Q0</div>
+    <div class="muted" id="qCount">Q 0</div>
   </div>
   <div class="timer" id="timer">00:00</div>
 </div>
 
 <button class="open-nav-btn" onclick="openNav()" title="Open question navigator">☰</button>
 
-<!-- Side Navigation -->
 <div id="sideNav">
   <div class="side-close" onclick="closeNav()">✕</div>
   <div style="padding:12px">
@@ -69,162 +70,408 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:#1
   </div>
 </div>
 
-<!-- Test Container -->
-<div class="container" id="testArea" style="display:none;">
-  <div class="question-box" id="questionBox"></div>
-  <div class="controls">
-    <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()">← Previous</button>
-    <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Next →</button>
-  </div>
-  <button class="submit-btn" id="submitBtn" onclick="submitTest(false)">Submit Test</button>
-</div>
+<main class="container" id="mainArea">
+  <div id="questionArea"></div>
 
-<!-- Review Area -->
-<div class="container" id="reviewArea" style="display:none;">
+  <div style="margin-top:12px; display:flex; gap:12px; align-items:center; justify-content:space-between;">
+    <div>
+      <button class="btn btn-ghost" id="prevBtn" onclick="prevQ()">← Previous</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQ()">Next →</button>
+    </div>
+    <div style="width:45%;text-align:right">
+      <button class="submit-btn" id="submitBtn" onclick="submitTest(false)">Submit Test</button>
+    </div>
+  </div>
+</main>
+
+<!-- Review area (hidden til submitted) -->
+<section class="container" id="reviewArea" style="display:none;">
   <div class="result-box">
     <div id="resultMessage" style="font-size:18px;font-weight:700"></div>
     <div id="scoreText" style="margin-top:6px"></div>
+    <div style="margin-top:10px">
+      <button class="btn btn-ghost" onclick="goBack()">← Back to Mock Tests</button>
+    </div>
   </div>
-  <h3 style="margin-left:2px">Review Answers</h3>
+
+  <h3>Review Answers</h3>
   <div id="reviewList"></div>
+</section>
+
+<!-- Login overlay if user not present in URL -->
+<div id="loginOverlay" style="display:none;" class="login-overlay" aria-hidden="true">
+  <div class="login-box">
+    <h3>Enter details to start</h3>
+    <label class="muted">Mobile number (required)</label>
+    <input id="loginMobile" type="tel" placeholder="e.g. 6301186741" />
+    <label class="muted">Name (optional)</label>
+    <input id="loginName" type="text" placeholder="Your name" />
+    <div class="login-actions">
+      <button class="btn btn-ghost" onclick="cancelLogin()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitLogin()">Proceed</button>
+    </div>
+    <div id="loginMsg" style="color:red;margin-top:8px"></div>
+  </div>
 </div>
 
 <script>
-let questions=[], current=0, answers={}, totalTime=0, timerRef=null, submitted=false, testId="test1", testTitle="Sample Test";
-const sampleQuestions = {
-  "test1":[
-    {"q":"What is 15 + 27?","A":"35","B":"42","C":"50","D":"40","answer":"C"},
-    {"q":"Which is the smallest prime number?","A":"2","B":"3","C":"5","D":"1","answer":"A"},
-    {"q":"RBI controls ______ in India.","A":"Stock Market","B":"Money Supply","C":"Agriculture","D":"Railways","answer":"B"}
-  ]
-};
-function $(id){return document.getElementById(id);}
-(function initFromURL(){
-  const params=new URLSearchParams(location.search);
-  if(params.has('test')) testId=params.get('test');
-  if(params.has('title')) testTitle=params.get('title');
+/* ---------------------------
+  CONFIG - Replace these
+  --------------------------- */
+
+/* Predefined allowed mobiles (edit or empty to allow any) */
+const allowedMobiles = ['6301186741','9876543210','9123456780'];
+
+/* Google Form settings: replace placeholders with your real entry IDs */
+/* Example: ENTRY_NAME = 'entry.123456789012345' */
+const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse'; // <-- replace
+const ENTRY_ID_NAME    = 'ENTRY_ID_NAME';    // e.g. 'entry.1111111111'
+const ENTRY_ID_MOBILE  = 'ENTRY_ID_MOBILE';  // e.g. 'entry.2222222222'
+const ENTRY_ID_TEST    = 'ENTRY_ID_TEST';    // e.g. 'entry.3333333333'
+const ENTRY_ID_SCORE   = 'ENTRY_ID_SCORE';   // e.g. 'entry.4444444444'
+const ENTRY_ID_TIME    = 'ENTRY_ID_TIME';    // e.g. 'entry.5555555555'
+const ENTRY_ID_ANSWERS = 'ENTRY_ID_ANSWERS'; // e.g. 'entry.6666666666'
+
+/* ---------------------------
+  END CONFIG
+  --------------------------- */
+
+const params = new URLSearchParams(location.search);
+let testId = params.get('test') || 'test1';
+let testTitle = params.get('title') || '';
+let urlUser = params.get('user') || '';
+let urlName = params.get('name') || '';
+
+let questions = [];
+let current = 0;
+let answers = {}; // { index: 'A' }
+let totalTime = 0;
+let timerRef = null;
+let submitted = false;
+let startTimestamp = null;
+
+/* UI refs */
+const testTitleEl = document.getElementById('testTitle');
+const qCountEl = document.getElementById('qCount');
+const timerEl = document.getElementById('timer');
+const questionArea = document.getElementById('questionArea');
+const navList = document.getElementById('navList');
+const reviewArea = document.getElementById('reviewArea');
+const reviewList = document.getElementById('reviewList');
+const resultMessage = document.getElementById('resultMessage');
+const scoreText = document.getElementById('scoreText');
+const loginOverlay = document.getElementById('loginOverlay');
+const loginMobileInput = document.getElementById('loginMobile');
+const loginNameInput = document.getElementById('loginName');
+const loginMsg = document.getElementById('loginMsg');
+
+/* Initialize */
+document.getElementById('appTitle').innerText = (testTitle || 'Mock Test');
+testTitleEl.innerText = testTitle || testId;
+
+/* If mobile passed via URL, prefill loginMobileInput (and bypass login if allowed) */
+if(urlUser){
+  loginMobileInput.value = urlUser;
+  loginNameInput.value = urlName || '';
+}
+
+/* Load questions.json and start (after login if needed) */
+function loadTestData(){
+  fetch('questions.json')
+    .then(r => { if(!r.ok) throw new Error('questions.json not found'); return r.json(); })
+    .then(data => {
+      const testObj = data[testId];
+      if(!testObj){
+        questionArea.innerHTML = `<div class="question-card"><strong>Test not found:</strong> ${testId}</div>`;
+        return;
+      }
+      testTitle = testObj.title || testTitle || testId;
+      questions = testObj.questions || [];
+      // Set UI
+      document.getElementById('appTitle').innerText = testTitle;
+      testTitleEl.innerText = testTitle;
+      // time: 1 min per question (customise if testObj.time exists)
+      totalTime = (testObj.time || questions.length) * 60;
+      startTimestamp = Date.now();
+      generateNav();
+      renderQuestion();
+      startTimer();
+    })
+    .catch(err => {
+      questionArea.innerHTML = `<div class="question-card"><strong>Error loading tests</strong><div class="muted">${err}</div></div>`;
+      console.error(err);
+    });
+}
+
+/* Login handling (if urlUser present and allowed or allowedMobiles empty we can auto-proceed) */
+function proceedAfterLogin(mobile, name){
+  // store in session
+  sessionStorage.setItem('exam_user_mobile', mobile);
+  sessionStorage.setItem('exam_user_name', name || '');
+  // hide overlay
+  loginOverlay.style.display = 'none';
+  // load test content
+  loadTestData();
+}
+function submitLogin(){
+  const mobile = (loginMobileInput.value || '').trim();
+  const name = (loginNameInput.value || '').trim();
+  if(!mobile){ loginMsg.innerText = 'Enter mobile number'; return; }
+  if(allowedMobiles.length && !allowedMobiles.includes(mobile)){
+    loginMsg.innerText = 'Mobile number not allowed';
+    return;
+  }
+  proceedAfterLogin(mobile, name);
+}
+function cancelLogin(){
+  // go back to mocktests
+  window.location.href = 'mocktests.html';
+}
+
+/* If url provided a user and allowed, skip overlay */
+(function checkLoginPre(){
+  const storedMobile = sessionStorage.getItem('exam_user_mobile');
+  const storedName = sessionStorage.getItem('exam_user_name') || '';
+  if(storedMobile){
+    // user already logged in this session
+    loginOverlay.style.display = 'none';
+    loginMobileInput.value = storedMobile;
+    loginNameInput.value = storedName;
+    loadTestData();
+  } else if(urlUser){
+    // if allowedMobiles is empty or contains urlUser, allow; else show overlay for validation
+    if(!allowedMobiles.length || allowedMobiles.includes(urlUser)){
+      loginOverlay.style.display = 'none';
+      proceedAfterLogin(urlUser, urlName);
+    } else {
+      loginMsg.innerText = 'Mobile from URL not on allowed list — enter allowed mobile';
+      loginOverlay.style.display = 'flex';
+      loginMobileInput.focus();
+    }
+  } else {
+    // no user: show overlay
+    loginOverlay.style.display = 'flex';
+    loginMobileInput.focus();
+  }
 })();
-$('testTitle').innerText=testTitle;
 
-function loadQuestions(){
-  fetch('questions.json').then(r=>r.ok?r.json():Promise.reject()).then(data=>{
-    if(!data[testId]) throw new Error('Test id not found in JSON');
-    questions=data[testId]; startEngine();
-  }).catch(_=>{questions=sampleQuestions[testId]||sampleQuestions['test1'];startEngine();});
-}
-
-function startEngine(){
-  totalTime = questions.length * 60;
-  generateNav();
-  renderQuestion();
-  $('testArea').style.display='block';
-  startTimer();
-}
-
-function startTimer(){
-  if(timerRef) clearInterval(timerRef);
-  updateTimerDisplay();
-  timerRef=setInterval(()=>{
-    totalTime--; updateTimerDisplay();
-    if(totalTime<=0){ clearInterval(timerRef); timerRef=null; submitTest(true); }
-  },1000);
-}
-
-function updateTimerDisplay(){ 
-  let m=Math.floor(totalTime/60); let s=totalTime%60; s=s<10?'0'+s:s; 
-  $('timer').innerText = m+':'+s; 
-}
-
-function openNav(){ $('sideNav').style.width='320px'; }
-function closeNav(){ $('sideNav').style.width='0'; }
+/* NAVIGATION (side) */
+function openNav(){ document.getElementById('sideNav').style.width = '320px'; }
+function closeNav(){ document.getElementById('sideNav').style.width = '0'; }
 
 function generateNav(){
-  const nav=$('navList'); nav.innerHTML='';
+  navList.innerHTML = '';
   for(let i=0;i<questions.length;i++){
-    const d=document.createElement('div'); d.id='nav'+i; d.className='nav-item not-answered'; d.innerText=(i+1); d.onclick=()=>jumpTo(i);
-    nav.appendChild(d);
+    const d = document.createElement('div');
+    d.id = 'nav'+i;
+    d.className = 'nav-item not-answered';
+    d.innerText = i+1;
+    d.onclick = ()=>jumpTo(i);
+    navList.appendChild(d);
   }
+  updateNavColors();
 }
 
+/* Render single question */
+function renderQuestion(){
+  if(!questions[current]) { questionArea.innerHTML = '<div class="question-card">No question</div>'; return; }
+  const q = questions[current];
+  qCountEl.innerText = `Q ${current+1}/${questions.length}`;
+  // build HTML
+  let html = '';
+  html += `<div class="question-card">`;
+  html += `<div class="qtext"><strong>Q${current+1}.</strong> ${q.q}</div>`;
+  html += `<div class="options" id="opts">`;
+  const keys = ['A','B','C','D'].filter(k => q[k] !== undefined);
+  keys.forEach(k=>{
+    const sel = answers[current] === k ? 'checked' : '';
+    // we render label+radio to allow keyboard tapping
+    html += `<label class="opt" id="opt-${current}-${k}">
+              <input type="radio" name="opt-${current}" value="${k}" ${sel} ${submitted? 'disabled':''} onchange="selectOption('${k}')" />
+              <span style="margin-left:6px">${k}. ${q[k]}</span>
+            </label>`;
+  });
+  html += `</div>`;
+  html += `</div>`;
+  questionArea.innerHTML = html;
+
+  // If submitted previously, apply highlighting for this question
+  if(submitted){
+    applyHighlightForQuestion(current);
+  }
+
+  // prev/next buttons show/hide
+  document.getElementById('prevBtn').style.display = current === 0 ? 'none' : 'inline-block';
+  document.getElementById('nextBtn').style.display = current === questions.length - 1 ? 'none' : 'inline-block';
+  // submit button visible only on last question
+  document.getElementById('submitBtn').style.display = current === questions.length - 1 ? 'inline-block' : 'none';
+
+  highlightNav(current);
+}
+
+/* Save selection */
+function selectOption(k){
+  if(submitted) return;
+  answers[current] = k;
+  updateNavColors();
+}
+
+/* Next / Prev / Jump */
+function nextQ(){ if(!submitted){ /* auto-save already on change */ } if(current < questions.length -1){ current++; renderQuestion(); } }
+function prevQ(){ if(current > 0){ current--; renderQuestion(); } }
+function jumpTo(i){ if(i<0 || i>=questions.length) return; current = i; renderQuestion(); closeNav(); }
+
+/* Timer */
+function startTimer(){
+  if(timerRef) clearInterval(timerRef);
+  updateTimer();
+  timerRef = setInterval(()=>{
+    totalTime--;
+    updateTimer();
+    if(totalTime <= 0){
+      clearInterval(timerRef);
+      timerRef = null;
+      submitTest(true);
+    }
+  },1000);
+}
+function updateTimer(){
+  const m = Math.floor(totalTime/60);
+  const s = totalTime % 60;
+  timerEl.innerText = `${m}:${s < 10 ? '0'+s : s}`;
+}
+
+/* Navigator coloring & highlight */
 function updateNavColors(){
   for(let i=0;i<questions.length;i++){
-    const q=questions[i]; const user=answers[i]||null;
-    const el=$('nav'+i); if(!el) continue;
-    if(!user) el.className='nav-item not-answered';
-    else if(user===q.answer) el.className='nav-item correct';
-    else el.className='nav-item wrong';
+    const el = document.getElementById('nav'+i);
+    if(!el) continue;
+    const user = answers[i] || null;
+    if(!user) el.className = 'nav-item not-answered';
+    else if(user === questions[i].answer) el.className = 'nav-item correct';
+    else el.className = 'nav-item wrong';
   }
 }
+function highlightNav(idx){
+  for(let i=0;i<questions.length;i++){
+    const el = document.getElementById('nav'+i);
+    if(el) el.style.boxShadow = '';
+  }
+  const cur = document.getElementById('nav'+idx);
+  if(cur) cur.style.boxShadow = '0 6px 18px rgba(16,24,40,0.08)';
+}
 
-function renderQuestion(){
-  const q = questions[current];
-  const container = $('questionBox'); container.innerHTML = '';
-
-  const qDiv = document.createElement('div'); qDiv.className='qtext'; qDiv.innerText=`${current+1}. ${q.q}`;
-  container.appendChild(qDiv);
-
-  const optsDiv = document.createElement('div'); optsDiv.className='options';
-  ['A','B','C','D'].forEach(k=>{
-    if(!q[k]) return;
-    const opt = document.createElement('label'); opt.className='opt';
-    const r = document.createElement('input'); r.type='radio'; r.name='opt'; r.value=k;
-    r.onchange = function(){ if(!submitted){ answers[current]=this.value; updateNavColors(); } };
-    if(answers[current]===k) r.checked=true;
-    if(submitted){
-      if(k===q.answer) opt.classList.add('correct');
-      if(answers[current]===k && answers[current]!==q.answer) opt.classList.add('wrong');
-      r.disabled=true;
-    }
-    opt.appendChild(r); opt.appendChild(document.createTextNode(k+'. '+q[k]));
-    optsDiv.appendChild(opt);
+/* When submitted, apply highlight (correct/wrong) for the current question */
+function applyHighlightForQuestion(idx){
+  const q = questions[idx];
+  const keys = ['A','B','C','D'].filter(k => q[k] !== undefined);
+  keys.forEach(k=>{
+    const label = document.getElementById(`opt-${idx}-${k}`);
+    if(!label) return;
+    const input = label.querySelector('input');
+    input.disabled = true;
+    label.classList.remove('correct','wrong');
+    if(k === q.answer) label.classList.add('correct');
+    if(answers[idx] === k && answers[idx] !== q.answer) label.classList.add('wrong');
   });
-  container.appendChild(optsDiv);
-
-  $('prevBtn').style.display = current===0?'none':'inline-block';
-  $('nextBtn').style.display = current===questions.length-1?'none':'inline-block';
-  $('submitBtn').style.display = current===questions.length-1?'block':'none';
-
-  $('qCount').innerText=`Q ${current+1}/${questions.length}`;
-  updateNavColors();
 }
 
-function nextQ(){
-  if(!submitted){
-    const sel=document.querySelector("input[name='opt']:checked");
-    if(sel) answers[current]=sel.value;
-  }
-  if(current<questions.length-1){ current++; renderQuestion(); }
-}
-
-function prevQ(){
-  if(current>0){ current--; renderQuestion(); }
-}
-
-function jumpTo(i){ if(i<0||i>=questions.length) return; current=i; renderQuestion(); closeNav(); }
-
+/* Submit test */
 function submitTest(auto=false){
-  if(submitted) return; submitted=true;
-  if(timerRef){ clearInterval(timerRef); timerRef=null; }
-  updateNavColors();
-  renderQuestion(); // to apply highlighting for current question
+  if(submitted) return;
+  submitted = true;
+  // stop timer
+  if(timerRef){ clearInterval(timerRef); timerRef = null; }
+  // ensure latest selection saved (if any checked)
+  const inputs = document.querySelectorAll('input[type=radio]:checked');
+  inputs.forEach(input => {
+    const name = input.name; // opt-<index>
+    const idx = parseInt(name.replace('opt-',''),10);
+    answers[idx] = input.value;
+  });
 
-  $('reviewArea').style.display='block';
-  const reviewList=$('reviewList'); reviewList.innerHTML='';
-  let score=0;
-  questions.forEach((q,i)=>{
-    const user=answers[i]||'Not Attempted';
-    if(user===q.answer) score++;
-    const item=document.createElement('div'); item.className='review-item';
-    item.innerHTML=`<div style="font-weight:700">Q${i+1}: ${q.q}</div>
-      <div style="margin-top:6px">Your Answer: <span class="${user===q.answer?'correct':(user==='Not Attempted'?'muted':'wrong')}">${user}</span></div>
+  // build score
+  let score = 0;
+  for(let i=0;i<questions.length;i++){
+    if(answers[i] && answers[i] === questions[i].answer) score++;
+  }
+  const percent = Math.round(score / questions.length * 100);
+  // compute time taken
+  const endTimestamp = Date.now();
+  const timeTakenSeconds = Math.round((endTimestamp - startTimestamp) / 1000);
+  const timeTaken = `${Math.floor(timeTakenSeconds/60)}m ${timeTakenSeconds%60}s`;
+
+  // show review area
+  reviewArea.style.display = 'block';
+  resultMessage.innerText = auto ? "Time's up — Test auto-submitted." : "Test submitted successfully.";
+  scoreText.innerText = `Score: ${score} / ${questions.length} (${percent}%) — Time taken: ${timeTaken}`;
+
+  // update nav colors (correct/wrong)
+  updateNavColors();
+  // ensure each question, when displayed, shows highlight - render current to update UI
+  renderQuestion();
+
+  // populate review list
+  renderFullReview(score);
+
+  // send results to Google Sheets (if form configured)
+  sendResultsToGoogleSheet({
+    name: sessionStorage.getItem('exam_user_name') || '',
+    mobile: sessionStorage.getItem('exam_user_mobile') || urlUser || '',
+    testId,
+    testTitle,
+    score,
+    percent,
+    timeTaken,
+    answers
+  });
+}
+
+/* Render review list */
+function renderFullReview(score){
+  reviewList.innerHTML = '';
+  for(let i=0;i<questions.length;i++){
+    const q = questions[i];
+    const user = answers[i] || 'Not Attempted';
+    const item = document.createElement('div');
+    item.className = 'review-item';
+    item.innerHTML = `<div style="font-weight:700">Q${i+1}: ${q.q}</div>
+      <div style="margin-top:6px">Your Answer: <span class="${user===q.answer?'muted correct':(user==='Not Attempted'?'muted wrong':'wrong')}">${user}</span></div>
       <div>Correct Answer: <span class="correct">${q.answer}</span></div>`;
     reviewList.appendChild(item);
-  });
-  $('resultMessage').innerText = auto ? "Time's up — Test auto-submitted." : "Test submitted successfully.";
-  $('scoreText').innerText = `Score: ${score} / ${questions.length} (${Math.round(score/questions.length*100)}%)`;
+  }
 }
 
-loadQuestions();
+/* Send to Google Form (replace entry placeholders above) */
+function sendResultsToGoogleSheet(payload){
+  // If form action not replaced, skip sending
+  if(GOOGLE_FORM_ACTION.includes('YOUR_FORM_ID') || ENTRY_ID_NAME === 'ENTRY_ID_NAME'){
+    console.warn('Google Form not configured. Replace GOOGLE_FORM_ACTION and ENTRY_ID_* placeholders with your form values.');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append(ENTRY_ID_NAME, payload.name || '');
+  formData.append(ENTRY_ID_MOBILE, payload.mobile || '');
+  formData.append(ENTRY_ID_TEST, payload.testId || '');
+  formData.append(ENTRY_ID_SCORE, payload.percent || '');
+  formData.append(ENTRY_ID_TIME, payload.timeTaken || '');
+  formData.append(ENTRY_ID_ANSWERS, JSON.stringify(payload.answers || {}));
+
+  fetch(GOOGLE_FORM_ACTION, { method: 'POST', mode: 'no-cors', body: formData })
+    .then(()=> console.log('Result posted (no-cors)'))
+    .catch(e=> console.error('Error posting result', e));
+}
+
+/* Back to mocktests */
+function goBack(){ window.location.href = 'mocktests.html'; }
+
+/* Initialize UI helpers */
+function updateNav(){ updateNavColors(); highlightNav(current); }
+
+/* Start */
+window.addEventListener('load',()=>{ /* nothing here - loadTestData called after login or from checkLoginPre */ });
+
 </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
       {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"}
     ]
   },
-"test 3": {
+"test3": {
     "title": "English",
     "questions": [
       {"q":"2 + 2 = ?","A":"3","B":"4","C":"5","D":"6","answer":"B"},

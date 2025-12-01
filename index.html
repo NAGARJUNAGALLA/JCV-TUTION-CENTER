@@ -2,184 +2,121 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Banking Test</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Mock Tests – Banking Exams App</title>
+
 <style>
 body { margin:0; font-family: Arial; background:#f5f5f5; }
 .header { padding:15px; text-align:center; color:#fff; font-size:22px; background:linear-gradient(90deg,#1e3e8e,#142c66); }
-.container { display:flex; max-width:1000px; margin:auto; padding:15px; }
-.questions-area { flex:3; background:#fff; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-.nav-area { flex:1; margin-left:15px; }
-.question-number { font-weight:bold; margin-bottom:10px; }
-.options button { display:block; width:100%; text-align:left; padding:10px; margin:6px 0; border-radius:8px; border:1px solid #1e3e8e; background:#f0f0f0; cursor:pointer; transition:0.3s; }
-.options button.correct { background:#28a745; color:#fff; border:none; }
-.options button.wrong { background:#dc3545; color:#fff; border:none; }
-.options button:disabled { cursor: not-allowed; }
-.nav-area button { width:100%; padding:8px; margin:5px 0; border-radius:8px; border:1px solid #1e3e8e; background:#fff; cursor:pointer; transition:0.3s; }
-.nav-area button.current { background:#1e3e8e; color:#fff; }
-.bottom-btn { margin-top:15px; padding:10px; width:100%; background:#1e3e8e; color:#fff; border:none; border-radius:8px; cursor:pointer; }
-@media(max-width:768px){ .container { flex-direction:column; } .nav-area { margin-left:0; margin-top:15px; } }
+.login-box { padding:15px; text-align:center; }
+.container { padding:15px; padding-bottom:80px; display:none; }
+.mock-card { background:white; border-radius:12px; padding:15px; margin-bottom:15px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+.mock-title { font-size:18px; font-weight:bold; color:#1e3e8e; }
+.mock-info { color:#444; font-size:14px; margin-top:5px; }
+.start-btn { margin-top:10px; background:#1e3e8e; color:white; padding:10px 18px; border:none; border-radius:8px; font-size:15px; width:100%; cursor:pointer; transition:0.3s; }
+.start-btn:hover{ background:#142c66; }
+.bottom-nav { position:fixed; bottom:0; left:0; right:0; background:#1e3e8e; color:#fff; display:flex; justify-content:space-around; padding:12px 0; }
+.bottom-nav a { color:#fff; text-decoration:none; font-size:14px; }
+@media (max-width:480px){ .mock-title { font-size:17px; } .start-btn { font-size:14px; } }
 </style>
-</head>
-<body>
-
-<div class="header" id="testTitle">Loading Test...</div>
-
-<div class="container">
-  <div class="questions-area" id="questionsArea">
-    Loading questions...
-  </div>
-  <div class="nav-area" id="navArea">
-    <!-- Question navigator -->
-  </div>
-</div>
 
 <script>
-const params = new URLSearchParams(window.location.search);
-const testId = params.get('test');
-const testTitle = params.get('title') || 'Test';
-const currentUser = params.get('user') || '';
-document.getElementById('testTitle').innerText = testTitle;
+// Predefined allowed mobile numbers
+const allowedMobiles = ['6301186741','9876543210','9123456780'];
+let currentUser = '';
 
-let questions = [];
-let currentIndex = 0;
-let answers = []; // store selected answers
-let timerMinutes = 0;
-let timerSeconds = 0;
-let timerInterval;
-
-function loadQuestions(){
-  fetch('questions.json')
-    .then(res=>res.json())
-    .then(data=>{
-      if(!data[testId]){
-        document.getElementById('questionsArea').innerHTML='Test not found.';
-        return;
-      }
-      questions = data[testId].questions;
-      answers = Array(questions.length).fill(null);
-      timerMinutes = questions.length; // 1 min per question
-      timerSeconds = 0;
-      createNav();
-      showQuestion(0);
-      startTimer();
-    });
-}
-
-// Show question by index
-function showQuestion(index){
-  currentIndex = index;
-  const q = questions[index];
-  const qArea = document.getElementById('questionsArea');
-  let html = `<div class="question-number">Question ${index+1} of ${questions.length}</div>`;
-  html += `<div class="question-text">${q.q}</div>`;
-  html += '<div class="options">';
-  ['A','B','C','D'].forEach(opt=>{
-    const selected = answers[index] === opt ? 'selected' : '';
-    html += `<button onclick="selectOption('${opt}')" id="opt${opt}" ${answers[index]? 'disabled':''}>${opt}. ${q[opt]}</button>`;
-  });
-  html += '</div>';
-  html += `<button class="bottom-btn" onclick="nextQuestion()">${index===questions.length-1?'Submit Test':'Next Question'}</button>`;
-  qArea.innerHTML = html;
-  updateNav();
-}
-
-// Option select
-function selectOption(opt){
-  answers[currentIndex] = opt;
-  ['A','B','C','D'].forEach(o=>{
-    const btn = document.getElementById('opt'+o);
-    btn.disabled=true;
-    if(o===questions[currentIndex].answer) btn.classList.add('correct');
-    else if(o===opt) btn.classList.add('wrong');
-  });
-  updateNav();
-}
-
-// Next question
-function nextQuestion(){
-  if(currentIndex < questions.length-1){
-    showQuestion(currentIndex+1);
-  }else{
-    submitTest();
+// Login function
+function login(){
+  const mobile = document.getElementById('mobileInput').value.trim();
+  if(allowedMobiles.includes(mobile)){
+    currentUser = mobile;
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('testContainer').style.display = 'block';
+    loadMockTests();
+  } else {
+    document.getElementById('loginMsg').innerText = 'Invalid mobile number';
   }
 }
 
-// Create right-side navigator
-function createNav(){
-  const nav = document.getElementById('navArea');
-  nav.innerHTML='';
-  questions.forEach((q,i)=>{
-    const btn = document.createElement('button');
-    btn.innerText = i+1;
-    btn.onclick = ()=>showQuestion(i);
-    nav.appendChild(btn);
-  });
+// Open test.html with parameters
+function startTest(id, title){
+  window.location.href = "test.html?test=" + id + "&title=" + encodeURIComponent(title) + "&user=" + currentUser;
 }
 
-// Highlight current question in navigator
-function updateNav(){
-  const nav = document.getElementById('navArea');
-  Array.from(nav.children).forEach((btn,i)=>{
-    btn.classList.toggle('current', i===currentIndex);
-    if(answers[i]) btn.style.background='#1e3e8e'; else btn.style.background='#fff';
-  });
-}
-
-// Timer
-function startTimer(){
-  const totalSeconds = timerMinutes*60+timerSeconds;
-  let remaining = totalSeconds;
-  timerInterval = setInterval(()=>{
-    const min = Math.floor(remaining/60);
-    const sec = remaining%60;
-    document.getElementById('testTitle').innerText = `${testTitle} — Time Left: ${min}:${sec<10?'0'+sec:sec}`;
-    remaining--;
-    if(remaining<0){
-      clearInterval(timerInterval);
-      submitTest();
-    }
-  },1000);
-}
-
-// Submit Test
-function submitTest(){
-  clearInterval(timerInterval);
-  // Calculate score
-  let score = 0;
-  questions.forEach((q,i)=>{
-    if(answers[i]===q.answer) score++;
-  });
-  const percent = Math.round(score/questions.length*100);
-
-  // Show results
-  const qArea = document.getElementById('questionsArea');
-  let html = `<h3>Test Completed</h3>`;
-  html += `<p>Your Score: ${score} / ${questions.length} (${percent}%)</p>`;
-  html += `<button class="bottom-btn" onclick="window.location.href='mocktests.html'">← Back to Mock Tests</button>`;
-  qArea.innerHTML = html;
-
-  // Send results to Google Sheets
-  sendResultsToGoogleSheet(testId,testTitle,percent);
-}
-
-// Send results to Google Form (replace entry IDs)
+// Send results to Google Sheets via Google Form
 function sendResultsToGoogleSheet(testId, title, score){
-  if(!currentUser) return;
-  const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // Replace
+  const formUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse"; // replace with your form URL
   const formData = new FormData();
   formData.append('entry.1111111111', currentUser); // Mobile
   formData.append('entry.2222222222', title);       // Test Title
   formData.append('entry.3333333333', score);       // Score
 
-  fetch(formUrl,{method:'POST',mode:'no-cors',body:formData})
+  fetch(formUrl, { method:'POST', mode:'no-cors', body: formData })
     .then(()=>console.log('Result sent to Google Sheets'))
     .catch(err=>console.error(err));
 }
 
-// Initialize
-loadQuestions();
+// Load mock tests dynamically from questions.json
+function loadMockTests(){
+  const container = document.getElementById('testContainer');
+  container.innerHTML = 'Loading tests...';
+
+  fetch('questions.json')
+    .then(res => {
+      if(!res.ok) throw new Error('Could not load questions.json');
+      return res.json();
+    })
+    .then(data => {
+      container.innerHTML = '';
+      Object.keys(data).forEach(testId => {
+        const test = data[testId];
+        const questions = test.questions || [];
+        const title = test.title || testId;
+        const card = document.createElement('div'); 
+        card.className='mock-card';
+        card.innerHTML = `
+          <div class="mock-title">Mock Test – ${title}</div>
+          <div class="mock-info">${questions.length} Questions</div>
+          <button class="start-btn" onclick="startTest('${testId}','${title}')">Start Test</button>
+        `;
+        container.appendChild(card);
+      });
+      if(Object.keys(data).length === 0){
+        container.innerHTML = 'No tests available.';
+      }
+    })
+    .catch(err => {
+      container.innerHTML = 'No tests available.';
+      console.error(err);
+    });
+}
 </script>
+
+</head>
+<body>
+
+<div class="header">Mock Tests</div>
+
+<!-- LOGIN FORM -->
+<div class="login-box" id="loginBox">
+  <h3>Login</h3>
+  <input type="tel" id="mobileInput" placeholder="Enter Mobile Number" style="padding:10px; width:70%; border-radius:8px; border:1px solid #ccc;" />
+  <br><br>
+  <button class="start-btn" onclick="login()">Login</button>
+  <p id="loginMsg" style="color:red; margin-top:6px;"></p>
+</div>
+
+<!-- MOCK TESTS CONTAINER -->
+<div class="container" id="testContainer">
+  <!-- Cards generated dynamically from questions.json -->
+</div>
+
+<div class="bottom-nav">
+  <a href="index.html">Home</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="mocktests.html">Mock Tests</a>
+</div>
 
 </body>
 </html>

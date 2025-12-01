@@ -18,7 +18,8 @@
     "title": "English",
     "questions": [
       {"q":"2 + 2 = ?","A":"3","B":"4","C":"5","D":"6","answer":"B"},
-      {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"}
+      {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"},
+      {"q":"Who is the prime minister of India?","A":"Narendra Modi","B":"Jawahar Lal Nehru","C":"Naidu","D":"Amitsha","answer":"A"}
     ]
   }
 }

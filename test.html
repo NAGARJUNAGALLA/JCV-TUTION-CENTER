@@ -4,6 +4,18 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 <title>Mock Test — Banking Exams</title>
+  <!-- MathJax support -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+
 <style>
 :root{
   --primary:#1e3e8e;
@@ -294,6 +306,10 @@ function renderQuestion(){
   html += `</div>`;
   html += `</div>`;
   questionArea.innerHTML = html;
+  if (window.MathJax) {
+  MathJax.typesetPromise();
+}
+
 
   // If submitted previously, apply highlighting for this question
   if(submitted){

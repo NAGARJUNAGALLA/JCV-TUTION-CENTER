@@ -128,7 +128,7 @@
 {"q":"If object distance for a convex lens is less than focal length, image formed is:","A":"Real and inverted","B":"Real and erect","C":"Virtual and erect","D":"Virtual and inverted","answer":"C"},
 {"q":"When light exits a medium, what determines whether it bends toward or away from normal?","A":"Difference in densities","B":"Relative refractive indices","C":"Colour of light","D":"Angle only","answer":"B"},
 {"q":"Which one of the following is true about virtual image?","A":"It can be projected on a screen","B":"It is always real","C":"Light rays actually converge to form it","D":"Light rays only appear to diverge from it","answer":"D"},
-{"q":"In a mirror-lens system, the sign convention defines focal length of a convex mirror as:","A":"+","B":"–","C":"Zero","D":"Undefined","answer":"A"}      
+{"q":"In a mirror-lens system, the sign convention defines focal length of a convex mirror as:","A":"+","B":"–","C":"Zero","D":"Undefined","answer":"A"},      
 {"q":"When white light passes from air to glass, its speed:","A":"Increases","B":"Decreases","C":"Remains same","D":"Becomes zero","answer":"B"}
     
     ]

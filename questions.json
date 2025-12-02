@@ -1,6 +1,6 @@
 {
   "test1": {
-    "title": "Coordinate Geimetry ",
+    "title": "Maths - Coordinate Geimetry ",
     "questions": [
       {"q":"The distance between points (1,2) and (4,6) is:", "A":"5","B":"6","C":"7","D":"10","answer":"A"},
 {"q":"The distance between points (-2,-3) and (1,1) is:", "A":"4","B":"5","C":"6","D":"7","answer":"B"},
@@ -50,7 +50,7 @@
     ]
   },
   "test2": {
-    "title": "Arithmetic Progression",
+    "title": "Maths- Arithmetic Progression",
     "questions": [
       {"q":"The nth term of an AP is given by:", "A":"$a_n = a + (n-1)d$","B":"$a_n = a + nd$","C":"$a_n = a + (n+1)d$","D":"$a_n = a + d$","answer":"A"},
 {"q":"If the first term of an AP is 5 and common difference is 3, the 10th term is:", "A":"32","B":"30","C":"35","D":"33","answer":"C"},
@@ -105,16 +105,8 @@
 
     ]
   },
-"test3": {
-    "title": "English",
-    "questions": [
-      {"q":"2 + 2 = ?","A":"3","B":"4","C":"5","D":"6","answer":"B"},
-      {"q":"Capital of India?","A":"Mumbai","B":"Delhi","C":"Kolkata","D":"Chennai","answer":"B"},
-      {"q":"Who is the prime minister of India?","A":"Narendra Modi","B":"Jawahar Lal Nehru","C":"Naidu","D":"Amitsha","answer":"A"}
-    ]
-  },
-  "test4":{
-    "title":"Reflection and Refraction of Light",
+  "test3":{
+    "title":"Physical Sciences -Reflection and Refraction of Light",
     "questions": [
       {"q":"When a ray of light strikes a plane mirror at 60° to the normal, what is the angle of reflection?","A":"30°","B":"60°","C":"90°","D":"120°","answer":"B"},
 {"q":"An image formed by a plane mirror is always:","A":"Real and inverted","B":"Real and erect","C":"Virtual and erect","D":"Virtual and inverted","answer":"C"},
